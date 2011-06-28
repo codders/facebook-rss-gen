@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %title My Feed
+  %body
+    .content
+      %ul
+        - posts['data'].select {|p| p['type'] == "status" }.each do |status|
+          %li
+            %div
+              .user
+                %p
+                  = status['from']['name']
+                  @
+                  = status['created_time']
+            %div
+              .message
+                %p= status['message']
+      

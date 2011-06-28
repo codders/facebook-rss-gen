@@ -1,0 +1,17 @@
+!!! XML
+%rss{ :version => "2.0" }
+  %channel
+    %title Facebook Status Feed
+    %link http://www.google.com
+    %description My facebook status feed
+    %language en-gb
+    %pubDate= Time.now
+    
+    - posts['data'].select {|p| p['type'] == "status" }.each do |status|
+      %item
+        %title&= [status['from']['name'], status['message']].join(" ")
+        %description Visit facebook
+        %pubDate= Time.parse(status['created_time']).rfc822
+        %guid{:isPermaLink => "false"}&= status['id']
+        %author&= status['from']['name']
+        %link&= status['actions'].select {|a| a['name'] == "Comment" }.first['link']

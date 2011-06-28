@@ -1,0 +1,4 @@
+--- 
+:hash_salt: Your Hash Salt
+:app_key: Your Key
+:app_secret: Your Secret
