@@ -7,10 +7,21 @@
     %language en-gb
     %pubDate= Time.now
     
-    - posts['data'].select {|p| p['type'] == "status" }.each do |status|
+    - posts['data'].select {|p| [ "status", "video" ].include?(p['type']) }.each do |status|
       %item
-        %title&= [status['from']['name'], status['message']].join(" ")
-        %description Visit facebook
+        %title
+          &= status['from']['name']
+          - case status['type']
+            - when "status"
+              &= status['message']
+            - when "video"
+              &= status['name']
+        %description 
+          - case status['type']
+            - when "status"
+              Visit facebook
+            - when "video"
+              %a{"href" => status['source']}&= status['source']
         %pubDate= Time.parse(status['created_time']).rfc822
         %guid{:isPermaLink => "false"}&= status['id']
         %author&= status['from']['name']

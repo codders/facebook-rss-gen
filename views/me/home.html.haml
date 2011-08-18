@@ -5,7 +5,7 @@
   %body
     .content
       %ul
-        - posts['data'].select {|p| p['type'] == "status" }.each do |status|
+        - posts['data'].each do |post|
           %li
             %div
               .user
@@ -16,4 +16,21 @@
             %div
               .message
                 %p= status['message']
+                  = post['from']['name']
+                  @
+                  = post['created_time']
+              - case post['type']
+                -when 'status'
+                  %div
+                    .message
+                      %p= post['message']
+                -when 'video'
+                  %div
+                    .video
+                      %p
+                        = post['name']
+                        (
+                        %a{"href" => post['source']}
+                          = post['source']
+                        )
       

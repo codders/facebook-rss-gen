@@ -257,9 +257,10 @@ get '/login' do
 end
 
 def handle_response(format, graph_url = nil)
+  query_params = CGI.parse(request.query_string)
   splat = params[:splat].dup
   user_hash = splat.shift
-  graph_url ||= "/#{splat.join('/')}"
+  graph_url ||= "/#{splat.join('/')}" + (query_params.size > 0 ? '?' + request.query_string : '')
   back_url = "/" + user_hash + "/" + format + graph_url
   storage = settings.storage
   if (!storage.has_user?(user_hash))
